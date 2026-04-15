@@ -5,7 +5,424 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Forged Standard — Online Personal Training</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="http<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forged Standard — Online Personal Training</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --black: #0a0a08;
+    --bone: #e8e4d9;
+    --muted: #8a8780;
+    --accent: #c8a96e;
+    --accent-dim: #8a7148;
+    --border: rgba(200,169,110,0.2);
+    --border-soft: rgba(232,228,217,0.1);
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black);
+    color: var(--bone);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 1.25rem 2.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(10,10,8,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border-soft);
+  }
+  .logo { font-family: 'Space Mono', monospace; font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); }
+  .nav-cta {
+    font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--black); background: var(--accent); padding: 0.55rem 1.25rem; text-decoration: none; transition: opacity 0.2s;
+  }
+  .nav-cta:hover { opacity: 0.85; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 8rem 2.5rem 5rem; position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 70% 30%, rgba(200,169,110,0.07) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 60% at 10% 80%, rgba(200,169,110,0.04) 0%, transparent 60%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0; opacity: 0.03;
+    background-image: linear-gradient(var(--bone) 1px, transparent 1px), linear-gradient(90deg, var(--bone) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-label { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.75rem; opacity: 0; animation: fadeUp 0.8s 0.2s forwards; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(3.5rem, 9vw, 8rem); font-weight: 700; line-height: 0.95; letter-spacing: -0.02em; max-width: 900px; opacity: 0; animation: fadeUp 0.9s 0.35s forwards; }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero-sub { margin-top: 2.5rem; font-size: 1.05rem; max-width: 520px; color: var(--muted); line-height: 1.8; opacity: 0; animation: fadeUp 0.9s 0.55s forwards; }
+  .hero-sub strong { color: var(--bone); font-weight: 500; }
+  .hero-actions { margin-top: 3rem; display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.9s 0.7s forwards; }
+  .btn-primary { font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; background: var(--accent); color: var(--black); padding: 1rem 2rem; text-decoration: none; display: inline-block; transition: opacity 0.2s, transform 0.2s; }
+  .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+  .hero-scroll { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase; }
+
+  /* PROOF STRIP */
+  .proof-strip { border-top: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border); padding: 1.5rem 2.5rem; display: flex; gap: 3rem; flex-wrap: wrap; align-items: center; background: rgba(200,169,110,0.03); }
+  .proof-item { display: flex; flex-direction: column; gap: 2px; }
+  .proof-num { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--accent); line-height: 1; }
+  .proof-label { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+
+  section { padding: 6rem 2.5rem; max-width: 1100px; margin: 0 auto; }
+  .section-label { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.25rem; }
+  h2 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.75rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+  h2 em { font-style: italic; color: var(--accent); }
+
+  /* PROBLEM */
+  .problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 4rem; }
+  @media (max-width: 700px) { .problem-grid { grid-template-columns: 1fr; } }
+  .problem-card { border: 0.5px solid var(--border); padding: 2rem; position: relative; }
+  .problem-card::before { content: ''; position: absolute; top: 0; left: 0; width: 2px; height: 100%; background: var(--accent); }
+  .problem-card h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; margin-bottom: 0.75rem; }
+  .problem-card p { color: var(--muted); font-size: 0.95rem; }
+  .price-strike { font-family: 'Space Mono', monospace; font-size: 0.85rem; color: var(--muted); text-decoration: line-through; margin-top: 1rem; }
+  .price-mine { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--accent); }
+
+  /* SYSTEM */
+  .system-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5px; margin-top: 4rem; border: 0.5px solid var(--border); }
+  .system-item { padding: 2.25rem 2rem; border: 0.5px solid var(--border); transition: background 0.2s; }
+  .system-item:hover { background: rgba(200,169,110,0.04); }
+  .system-num { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--accent-dim); letter-spacing: 0.15em; margin-bottom: 1rem; }
+  .system-item h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; margin-bottom: 0.75rem; }
+  .system-item p { color: var(--muted); font-size: 0.9rem; line-height: 1.65; }
+
+  /* LIFESTYLE CALLOUT */
+  .lifestyle-callout { border: 0.5px solid var(--border); padding: 2.5rem; margin-top: 3rem; background: rgba(200,169,110,0.03); position: relative; }
+  .lifestyle-callout::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: var(--accent); }
+  .lifestyle-callout h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 1rem; }
+  .lifestyle-callout p { color: var(--muted); font-size: 0.95rem; max-width: 620px; }
+  .lifestyle-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+  .lifestyle-tag { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; border: 0.5px solid var(--border); padding: 0.35rem 0.85rem; color: var(--accent); }
+
+  /* PROCESS */
+  .process-steps { margin-top: 4rem; display: flex; flex-direction: column; gap: 0; }
+  .process-step { display: grid; grid-template-columns: 80px 1fr; border-bottom: 0.5px solid var(--border); padding: 2.25rem 0; gap: 2rem; align-items: start; }
+  .step-n { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--border); line-height: 1; font-style: italic; }
+  .process-step h3 { font-family: 'Playfair Display', serif; font-size: 1.25rem; margin-bottom: 0.5rem; }
+  .process-step p { color: var(--muted); font-size: 0.9rem; }
+
+  /* PRICING */
+  .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 4rem; }
+  @media (max-width: 680px) { .pricing-grid { grid-template-columns: 1fr; } }
+  .pricing-card { border: 0.5px solid var(--border); padding: 2.5rem 2rem; position: relative; }
+  .pricing-card.featured { border: 1.5px solid var(--accent); background: rgba(200,169,110,0.04); }
+  .pricing-badge { position: absolute; top: -1px; left: 50%; transform: translateX(-50%); background: var(--accent); color: var(--black); font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; padding: 4px 14px; white-space: nowrap; }
+  .pricing-plan { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.5rem; }
+  .pricing-price { font-family: 'Playfair Display', serif; font-size: 3rem; line-height: 1; margin-bottom: 0.35rem; }
+  .pricing-price sup { font-size: 1.4rem; vertical-align: super; }
+  .pricing-period { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.1em; margin-bottom: 2rem; }
+  .pricing-compare { font-size: 0.8rem; color: var(--muted); margin-bottom: 2rem; }
+  .pricing-compare span { color: var(--accent); }
+  .pricing-features { list-style: none; display: flex; flex-direction: column; gap: 0.85rem; margin-bottom: 2.5rem; }
+  .pricing-features li { font-size: 0.875rem; color: var(--bone); display: flex; gap: 0.75rem; align-items: flex-start; }
+  .pricing-features li::before { content: '—'; color: var(--accent); font-family: 'Space Mono', monospace; flex-shrink: 0; margin-top: 2px; }
+  .btn-outline { width: 100%; font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; border: 0.5px solid var(--accent); color: var(--accent); background: transparent; padding: 0.9rem 1.5rem; cursor: pointer; transition: all 0.2s; text-decoration: none; display: block; text-align: center; }
+  .btn-outline:hover { background: var(--accent); color: var(--black); }
+  .pricing-card.featured .btn-outline { background: var(--accent); color: var(--black); }
+  .pricing-card.featured .btn-outline:hover { opacity: 0.88; }
+
+  /* TESTIMONIALS */
+  .testimonials { display: flex; flex-direction: column; gap: 2px; margin-top: 4rem; }
+  .testimonial { border: 0.5px solid var(--border); padding: 2rem; position: relative; }
+  .testimonial blockquote { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-style: italic; line-height: 1.7; margin-bottom: 1.25rem; }
+  .testimonial-who { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+  .testimonial-accent { position: absolute; top: 0; right: 0; width: 2px; height: 100%; background: var(--accent); }
+
+  /* APPLY / CTA */
+  .apply-section { background: rgba(200,169,110,0.04); border-top: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border); }
+  .apply-inner { max-width: 680px; margin: 0 auto; padding: 6rem 2.5rem; text-align: center; }
+  .apply-inner h2 { margin-bottom: 1rem; }
+  .apply-inner p { color: var(--muted); margin-bottom: 3rem; font-size: 0.95rem; line-height: 1.8; }
+  .apply-btn { font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; background: var(--accent); color: var(--black); padding: 1.1rem 2.5rem; text-decoration: none; display: inline-block; transition: opacity 0.2s, transform 0.2s; }
+  .apply-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+  .apply-note { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.1em; margin-top: 1.5rem; }
+
+  /* IG */
+  .ig-strip { border-top: 0.5px solid var(--border-soft); padding: 2.5rem; text-align: center; }
+  .ig-strip a { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); text-decoration: none; }
+  .ig-strip a:hover { text-decoration: underline; }
+
+  footer { padding: 3rem 2.5rem; border-top: 0.5px solid var(--border-soft); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; max-width: 1100px; margin: 0 auto; }
+  .logo-footer { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); }
+  footer p { font-size: 0.8rem; color: var(--muted); }
+  footer a { color: var(--muted); text-decoration: none; }
+  footer a:hover { color: var(--accent); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 600px) {
+    nav { padding: 1rem 1.25rem; }
+    .hero { padding: 7rem 1.25rem 4rem; }
+    section { padding: 4rem 1.25rem; }
+    .proof-strip { padding: 1.25rem; gap: 1.5rem; }
+    .process-step { grid-template-columns: 50px 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Forged Standard</div>
+  <a href="#apply" class="nav-cta">Apply now</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <p class="hero-label">Online Personal Training · UK</p>
+  <h1>The coaching<br>you deserve<br><em>at a price</em><br>that respects you.</h1>
+  <p class="hero-sub">
+    <strong>Real programming. Real accountability. Real results.</strong>
+    Fully individualised training built around your body, your schedule, and your life —
+    the kind of coaching UK trainers charge £400–600/month for, delivered at a price that actually makes sense.
+  </p>
+  <div class="hero-actions">
+    <a href="#apply" class="btn-primary">Apply for a spot →</a>
+    <span class="hero-scroll">See what's included ↓</span>
+  </div>
+</div>
+
+<!-- PROOF STRIP -->
+<div class="proof-strip">
+  <div class="proof-item"><span class="proof-num">5–6</span><span class="proof-label">Weeks per cycle</span></div>
+  <div class="proof-item"><span class="proof-num">Weekly</span><span class="proof-label">Load updates</span></div>
+  <div class="proof-item"><span class="proof-num">100%</span><span class="proof-label">Individualised</span></div>
+  <div class="proof-item"><span class="proof-num">Weekly</span><span class="proof-label">Form reviews</span></div>
+  <div class="proof-item"><span class="proof-num">£99–£179</span><span class="proof-label">Not £400–£600</span></div>
+  <div class="proof-item"><span class="proof-num">12</span><span class="proof-label">Spots maximum</span></div>
+</div>
+
+<!-- THE GAP -->
+<section class="fade-in">
+  <p class="section-label">The gap in the market</p>
+  <h2>Great coaching<br>shouldn't cost a <em>mortgage payment.</em></h2>
+  <p style="color:var(--muted); max-width:560px; font-size:0.95rem;">The UK personal training market is overpriced and underdelivered. Most online coaches send you a generic PDF and call it personalisation. Here's what the actual numbers look like.</p>
+  <div class="problem-grid">
+    <div class="problem-card">
+      <h3>Typical UK online coach</h3>
+      <p>Generic programme templates. Monthly check-in calls. No weekly adjustments. No form reviews. You're one of 60 clients managed by an assistant.</p>
+      <p class="price-strike">£400 – £650 / month</p>
+    </div>
+    <div class="problem-card">
+      <h3>Forged Standard</h3>
+      <p>Fully customised mesocycles updated week by week. WhatsApp access. Weekly form video feedback. Progressive overload tracked session by session.</p>
+      <p class="price-mine">£99 – £179 / month</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT YOU GET -->
+<section class="fade-in" style="border-top: 0.5px solid var(--border);">
+  <p class="section-label">The system</p>
+  <h2>Everything inside<br>your <em>programme.</em></h2>
+  <div class="system-grid">
+    <div class="system-item">
+      <p class="system-num">01 —</p>
+      <h3>Individualised mesocycles</h3>
+      <p>Every 5–6 weeks you receive a completely new training cycle built specifically for you — new exercise selection, fresh intensity targets, a clear theme. Strength. Hypertrophy. Athletic performance. Never a template.</p>
+    </div>
+    <div class="system-item">
+      <p class="system-num">02 —</p>
+      <h3>Weekly progressive overload</h3>
+      <p>Your exact sets, reps, and load targets are updated every single week based on what you actually logged the session before. The programme evolves with you — not on a fixed calendar.</p>
+    </div>
+    <div class="system-item">
+      <p class="system-num">03 —</p>
+      <h3>Session intros — every workout</h3>
+      <p>Every session opens with a written coach intro. Your mental cue, the focus of the day, a mindset principle, or a performance tip backed by research. You know exactly why you're doing what you're doing.</p>
+    </div>
+    <div class="system-item">
+      <p class="system-num">04 —</p>
+      <h3>WhatsApp accountability</h3>
+      <p>1–2 check-ins per week — real ones. Are you consistent? Are the weights feeling right? Is work taking over? Adjustments happen immediately, not at a scheduled call three weeks away.</p>
+    </div>
+    <div class="system-item">
+      <p class="system-num">05 —</p>
+      <h3>Weekly form video reviews</h3>
+      <p>Send your form clips. Get specific technical feedback — actual cues, actual corrections. Technique is the difference between progress and injury. This is non-negotiable in every package.</p>
+    </div>
+    <div class="system-item">
+      <p class="system-num">06 —</p>
+      <h3>Lifestyle & nutrition guidance</h3>
+      <p>Practical advice on sleep, stress, protein, energy management, and habits built around your real schedule. Not a meal plan — real guidance that fits into your life and makes everything else work better.</p>
+    </div>
+  </div>
+
+  <div class="lifestyle-callout">
+    <h3>On lifestyle & nutrition guidance</h3>
+    <p>This isn't a nutrition programme or a meal plan. It's the practical, evidence-informed advice that most coaches skip — the things that actually determine whether your training lands. Sleep quality and muscle recovery. Protein targets and timing without obsessing over macros. Managing energy around a demanding job. Keeping habits consistent when life gets busy. This is coaching for real people with real schedules.</p>
+    <div class="lifestyle-tags">
+      <span class="lifestyle-tag">Sleep & recovery</span>
+      <span class="lifestyle-tag">Protein guidance</span>
+      <span class="lifestyle-tag">Energy management</span>
+      <span class="lifestyle-tag">Stress & training</span>
+      <span class="lifestyle-tag">Habit building</span>
+      <span class="lifestyle-tag">Pre & post-workout nutrition</span>
+      <span class="lifestyle-tag">Consistency strategies</span>
+      <span class="lifestyle-tag">Work-life-training balance</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="fade-in" style="border-top: 0.5px solid var(--border);">
+  <p class="section-label">How it works</p>
+  <h2>From application<br>to <em>first session.</em></h2>
+  <div class="process-steps">
+    <div class="process-step">
+      <span class="step-n">01</span>
+      <div>
+        <h3>You apply</h3>
+        <p>Fill out the intake questionnaire — training history, goals, schedule, gym access, lifestyle, anything relevant. This is where genuine individualisation starts. Not at week four.</p>
+      </div>
+    </div>
+    <div class="process-step">
+      <span class="step-n">02</span>
+      <div>
+        <h3>Your first cycle is built</h3>
+        <p>Your first 5–6 week mesocycle lands on TrainHeroic before your start date. Every session structured, every warm-up written, every exercise annotated with coaching cues.</p>
+      </div>
+    </div>
+    <div class="process-step">
+      <span class="step-n">03</span>
+      <div>
+        <h3>You train. I watch the data.</h3>
+        <p>Log your sessions in the app. Send form clips on WhatsApp. I update your targets every week based on actual performance. You never guess what weight to use next.</p>
+      </div>
+    </div>
+    <div class="process-step">
+      <span class="step-n">04</span>
+      <div>
+        <h3>Cycle ends. A better one begins.</h3>
+        <p>After 5–6 weeks, your new baseline is established. The next cycle builds on it — same principles, fresh stimulus, updated targets. You keep improving without hitting a wall.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="fade-in" style="border-top: 0.5px solid var(--border);" id="pricing">
+  <p class="section-label">Pricing</p>
+  <h2>Simple. <em>Fair.</em><br>No lock-in nonsense.</h2>
+  <p style="color:var(--muted); max-width:520px; font-size:0.95rem; margin-bottom:0;">Spaces are capped at 12 athletes at any time. This is a deliberate choice — it protects the standard of every programme.</p>
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <p class="pricing-plan">Monthly</p>
+      <div class="pricing-price"><sup>£</sup>99</div>
+      <p class="pricing-period">/ month · billed monthly · cancel anytime</p>
+      <p class="pricing-compare">UK coaches charge <span>£400–600</span> for less.</p>
+      <ul class="pricing-features">
+        <li>Full individualised mesocycle (5–6 weeks)</li>
+        <li>Weekly load & rep target updates</li>
+        <li>Session intros — every workout</li>
+        <li>WhatsApp check-ins 1–2×/week</li>
+        <li>Weekly form video feedback</li>
+        <li>Lifestyle & nutrition guidance</li>
+        <li>TrainHeroic app access</li>
+      </ul>
+      <a href="#apply" class="btn-outline">Apply for this plan →</a>
+    </div>
+    <div class="pricing-card featured">
+      <div class="pricing-badge">Most popular</div>
+      <p class="pricing-plan">2-Month Package</p>
+      <div class="pricing-price"><sup>£</sup>169</div>
+      <p class="pricing-period">/ month · billed every 2 months</p>
+      <p class="pricing-compare">Save <span>£29</span> · 2 full cycles · best results</p>
+      <ul class="pricing-features">
+        <li>Everything in monthly, plus:</li>
+        <li>2 full mesocycles (10–12 weeks)</li>
+        <li>Priority WhatsApp response time</li>
+        <li>Mid-cycle performance review</li>
+        <li>Detailed end-of-cycle progress report</li>
+        <li>Enhanced lifestyle & nutrition check-ins</li>
+        <li>First access when new spots open</li>
+      </ul>
+      <a href="#apply" class="btn-outline">Apply for this plan →</a>
+    </div>
+  </div>
+  <p style="color:var(--muted); font-size:0.8rem; margin-top:1.5rem; font-family:'Space Mono',monospace; letter-spacing:0.05em;">
+    Payments in GBP via Stripe. Secure checkout. No contracts.
+  </p>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="fade-in" style="border-top: 0.5px solid var(--border);">
+  <p class="section-label">Athlete feedback</p>
+  <h2>Real people.<br><em>Real progress.</em></h2>
+  <div class="testimonials">
+    <div class="testimonial">
+      <div class="testimonial-accent"></div>
+      <blockquote>"The weekly updates to my targets are what made the difference. My previous coach gave me the same programme for 3 months. Here the weights go up every week and I actually feel it in my performance."</blockquote>
+      <p class="testimonial-who">Online athlete · Training since Dec 2025</p>
+    </div>
+    <div class="testimonial">
+      <div class="testimonial-accent"></div>
+      <blockquote>"The session intros are something I didn't expect to matter — but they completely changed how I show up. Reading what to focus on, the mindset angle, the practical nutrition tip before I train. It's the difference between going through the motions and actually being present."</blockquote>
+      <p class="testimonial-who">Online athlete · Full-body programme</p>
+    </div>
+    <div class="testimonial">
+      <div class="testimonial-accent"></div>
+      <blockquote>"Every form video I send gets specific, technical feedback within a day. Not 'looks good' — actual cues and corrections. That level of detail is rare even from in-person coaches."</blockquote>
+      <p class="testimonial-who">Online athlete · 4× per week programme</p>
+    </div>
+  </div>
+</section>
+
+<!-- APPLY CTA -->
+<div class="apply-section" id="apply">
+  <div class="apply-inner fade-in">
+    <p class="section-label" style="text-align:center;">Limited spots · Apply now</p>
+    <h2>Ready to train<br>like you <em>mean it?</em></h2>
+    <p>
+      12 spots. That's the cap — always. Fill out the application and I'll get back to you within 48 hours.
+      If we're a good fit, your first cycle starts within the week.
+    </p>
+    <a href="https://forms.gle/bXgSmMaxHJnjLWMx9" target="_blank" class="apply-btn">Start your application →</a>
+    <p class="apply-note">Takes 5 minutes · No payment until we confirm you're in · 100% free to apply</p>
+  </div>
+</div>
+
+<!-- IG -->
+<div class="ig-strip">
+  <p style="font-size:0.8rem; color:var(--muted); margin-bottom:0.75rem; font-family:'Space Mono',monospace; letter-spacing:0.1em; text-transform:uppercase;">See the work in action</p>
+  <a href="https://www.instagram.com/n.dakhakhny/" target="_blank">@n.dakhakhny on Instagram ↗</a>
+</div>
+
+<footer>
+  <div class="logo-footer">Forged Standard</div>
+  <p>Online personal training · UK</p>
+  <p><a href="mailto:nourdakhakhny4@gmail.com">nourdakhakhny4@gmail.com</a></p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
+s://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
